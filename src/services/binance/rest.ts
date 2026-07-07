@@ -2,7 +2,8 @@ import type { BinanceKlineRaw, Candle } from '@/lib/types';
 
 const BINANCE_REST_BASE_URL = 'https://api.binance.com/api/v3';
 
-export async function fetchKlines(symbol: string,interval: string): Promise<Candle[]> {
+export async function fetchKlines(symbol:string, interval:string): Promise<Candle[]> {
+    
   const url = `${BINANCE_REST_BASE_URL}/klines?symbol=${symbol}&interval=${interval}`;
 
   const res = await fetch(url);
