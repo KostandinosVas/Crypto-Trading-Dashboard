@@ -25,6 +25,13 @@
   min-width: 0;
 }
 
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
 @media (max-width: 768px) {
   .layout {
     grid-template-columns: 1fr;

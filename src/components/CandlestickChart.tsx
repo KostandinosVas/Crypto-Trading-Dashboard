@@ -3,8 +3,9 @@
 import { useEffect, useRef } from 'react';
 import { createChart, AreaSeries, type IChartApi, type UTCTimestamp  } from 'lightweight-charts';
 import type { Candle } from '@/lib/types';
+import { AREA_COLORS } from '@/lib/colors';
 
-export function CandlestickChart({ data }: { data: Candle[] }) {
+export function CandlestickChart({ data, isUp = true }: { data: Candle[]; isUp?: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
 
@@ -17,12 +18,14 @@ export function CandlestickChart({ data }: { data: Candle[] }) {
     });
     chartRef.current = chart;
 
-    const areaSeries = chart.addSeries(AreaSeries, {
-      lineColor: '#2962FF',
-      topColor: 'rgba(41, 98, 255, 0.4)',
-      bottomColor: 'rgba(41, 98, 255, 0.0)',
-      lineWidth: 2,
-    });
+  const colors = AREA_COLORS[isUp ? 'up' : 'down'];
+
+  const areaSeries = chart.addSeries(AreaSeries, {
+    lineColor: colors.line,
+    topColor: colors.top,
+    bottomColor: colors.bottom,
+    lineWidth: 2,
+  });
 
     areaSeries.setData(
       data.map((candle) => ({
@@ -36,7 +39,7 @@ export function CandlestickChart({ data }: { data: Candle[] }) {
     return () => {
       chart.remove();
     };
-  }, [data]);
+  }, [data, isUp]);
 
   return <div ref={containerRef} />;
 }

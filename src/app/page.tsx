@@ -4,14 +4,17 @@ import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { CoinList } from '@/components/CoinList';
 import { CandlestickChart } from '@/components/CandlestickChart';
+import { IntervalSelector } from '@/components/IntervalSelector';
 import { useHistoricalData } from '@/hooks/useHistoricalData';
+import { usePriceStream } from '@/hooks/usePriceStream';
 import styles from './page.module.css';
-
-const INTERVAL = '1h';
 
 export default function Home() {
   const [selectedSymbol, setSelectedSymbol] = useState('BTCUSDT');
-  const { data, isLoading, error } = useHistoricalData(selectedSymbol, INTERVAL);
+  const [interval, setInterval] = useState('1h');
+  const { data, isLoading, error } = useHistoricalData(selectedSymbol, interval);
+  const { changePercent } = usePriceStream(selectedSymbol);
+  const isUp = (changePercent ?? 0) >= 0;
 
   return (
     <main className={styles.page}>
@@ -22,10 +25,13 @@ export default function Home() {
             <CoinList selectedSymbol={selectedSymbol} onSelect={setSelectedSymbol} />
           </aside>
           <section className={styles.chartSection}>
-            <h2>{selectedSymbol}</h2>
+            <div className={styles.chartHeader}>
+              <h2>{selectedSymbol}</h2>
+              <IntervalSelector selected={interval} onSelect={setInterval} />
+            </div>
             {isLoading && <div>Loading...</div>}
             {error && <div>Error loading chart</div>}
-            {data && <CandlestickChart data={data} />}
+            {data && <CandlestickChart data={data} isUp={isUp} />}
           </section>
         </div>
       </div>

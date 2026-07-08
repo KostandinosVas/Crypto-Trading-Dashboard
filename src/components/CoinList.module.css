@@ -10,3 +10,23 @@
   color: var(--text-muted);
   font-size: 0.9rem;
 }
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.search {
+  padding: 0.6rem 0.75rem;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.85rem;
+  outline: none;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.search:focus {
+  background: var(--surface);
+}
