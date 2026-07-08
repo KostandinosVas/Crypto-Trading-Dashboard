@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { createChart, CandlestickSeries, type IChartApi } from 'lightweight-charts';
+import { createChart, AreaSeries, type IChartApi, type UTCTimestamp  } from 'lightweight-charts';
 import type { Candle } from '@/lib/types';
 
 export function CandlestickChart({ data }: { data: Candle[] }) {
@@ -17,22 +17,17 @@ export function CandlestickChart({ data }: { data: Candle[] }) {
     });
     chartRef.current = chart;
 
-    const candlestickSeries = chart.addSeries(CandlestickSeries, {
-      upColor: '#26a69a',
-      downColor: '#ef5350',
-      borderVisible: false,
-      wickUpColor: '#26a69a',
-      wickDownColor: '#ef5350',
+    const areaSeries = chart.addSeries(AreaSeries, {
+      lineColor: '#2962FF',
+      topColor: 'rgba(41, 98, 255, 0.4)',
+      bottomColor: 'rgba(41, 98, 255, 0.0)',
+      lineWidth: 2,
     });
 
-    candlestickSeries.setData(
+    areaSeries.setData(
       data.map((candle) => ({
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        time: (candle.openTime / 1000) as any,
-        open: candle.open,
-        high: candle.high,
-        low: candle.low,
-        close: candle.close,
+        time: (candle.openTime / 1000) as UTCTimestamp,
+        value: candle.close,
       }))
     );
 

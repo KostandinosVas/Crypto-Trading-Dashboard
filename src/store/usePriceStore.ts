@@ -1,18 +1,23 @@
 import { create } from 'zustand';
 
+interface PriceTick {
+  price: number;
+  openPrice: number;
+}
+
 interface PriceState {
-  prices: Record<string, number>;
+  prices: Record<string, PriceTick>;
   isConnected: boolean;
-  setPrice: (symbol: string, price: number) => void;
+  setPrice: (symbol: string, price: number, openPrice: number) => void;
   setConnected: (connected: boolean) => void;
 }
 
 export const usePriceStore = create<PriceState>((set) => ({
   prices: {},
   isConnected: false,
-  setPrice: (symbol, price) =>
+  setPrice: (symbol, price, openPrice) =>
     set((state) => ({
-      prices: { ...state.prices, [symbol]: price },
+      prices: { ...state.prices, [symbol]: { price, openPrice } },
     })),
   setConnected: (connected) => set({ isConnected: connected }),
 }));

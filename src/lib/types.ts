@@ -24,3 +24,10 @@ export interface Candle {
   volume: number;
   closeTime: number;
 }
+
+export interface Ticker {
+  symbol: string;
+  lastPrice: number;
+  priceChangePercent: number;
+  quoteVolume: number;
+}
