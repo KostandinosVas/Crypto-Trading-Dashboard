@@ -1,0 +1,29 @@
+.card {
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.price {
+  font-family: monospace;
+  font-size: 1.1rem;
+}
+
+.live {
+  color: #26a69a;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+.offline {
+  color: #999;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
