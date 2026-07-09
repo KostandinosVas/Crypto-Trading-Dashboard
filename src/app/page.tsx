@@ -7,6 +7,7 @@ import { CandlestickChart } from '@/components/CandlestickChart';
 import { IntervalSelector } from '@/components/IntervalSelector';
 import { useHistoricalData } from '@/hooks/useHistoricalData';
 import { usePriceStream } from '@/hooks/usePriceStream';
+import { ChatWidget } from '@/components/ChatWidget';
 import styles from './page.module.css';
 
 export default function Home() {
@@ -32,6 +33,9 @@ export default function Home() {
             {isLoading && <div>Loading...</div>}
             {error && <div>Error loading chart</div>}
             {data && <CandlestickChart data={data} isUp={isUp} />}
+            <div className={styles.chatSection}>
+              <ChatWidget />
+            </div>
           </section>
         </div>
       </div>

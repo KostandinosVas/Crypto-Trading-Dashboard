@@ -32,6 +32,10 @@
   margin-bottom: 0.75rem;
 }
 
+.chatSection {
+  margin-top: 1.5rem;
+}
+
 @media (max-width: 768px) {
   .layout {
     grid-template-columns: 1fr;
