@@ -46,6 +46,23 @@ export async function fetchTopTickers(limit: number = 100): Promise<Ticker[]> {
     .slice(0, limit);
 }
 
+  export async function fetchSingleTicker(symbol: string): Promise<Ticker> {
+    const res = await fetch(`${BINANCE_REST_BASE_URL}/ticker/24hr?symbol=${symbol}`);
+
+    if (!res.ok) {
+      throw new Error(`Binance API error: ${res.status}`);
+    }
+
+    const raw: BinanceTicker24hrRaw = await res.json();
+
+    return {
+      symbol: raw.symbol,
+      lastPrice: Number(raw.lastPrice),
+      priceChangePercent: Number(raw.priceChangePercent),
+      quoteVolume: Number(raw.quoteVolume),
+    };
+  }
+
 function mapRawKlineToCandle(raw: BinanceKlineRaw): Candle {
   const [openTime, open, high, low, close, volume, closeTime] = raw;
 
