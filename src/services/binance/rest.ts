@@ -63,7 +63,7 @@ export async function fetchTopTickers(limit: number = 100): Promise<Ticker[]> {
     };
   }
 
-function mapRawKlineToCandle(raw: BinanceKlineRaw): Candle {
+export function mapRawKlineToCandle(raw: BinanceKlineRaw): Candle {
   const [openTime, open, high, low, close, volume, closeTime] = raw;
 
   return {
