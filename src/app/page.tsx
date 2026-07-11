@@ -10,6 +10,7 @@ import { usePriceStream } from '@/hooks/usePriceStream';
 import { ChatWidget } from '@/components/ChatWidget';
 import { getCoinIconUrl, FALLBACK_ICON } from '@/lib/coinIcon';
 import { MarketStats } from '@/components/MarketStats';
+import { Footer } from '@/components/Footer';
 import styles from './page.module.css';
 
 export default function Home() {
@@ -52,6 +53,7 @@ export default function Home() {
             </div>
           </section>
         </div>
+        <Footer />
       </div>
     </main>
   );
