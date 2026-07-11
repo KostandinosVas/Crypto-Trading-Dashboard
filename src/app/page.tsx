@@ -9,6 +9,7 @@ import { useHistoricalData } from '@/hooks/useHistoricalData';
 import { usePriceStream } from '@/hooks/usePriceStream';
 import { ChatWidget } from '@/components/ChatWidget';
 import { getCoinIconUrl, FALLBACK_ICON } from '@/lib/coinIcon';
+import { MarketStats } from '@/components/MarketStats';
 import styles from './page.module.css';
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
     <main className={styles.page}>
       <div className={styles.container}>
         <Header />
+        <MarketStats />
         <div className={styles.layout}>
           <aside className={styles.sidebar}>
             <CoinList selectedSymbol={selectedSymbol} onSelect={setSelectedSymbol} />
