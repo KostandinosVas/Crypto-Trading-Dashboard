@@ -7,11 +7,50 @@
   margin-bottom: 0.5rem;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logoMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: white;
+}
+
 .wordmark {
   font-family: var(--font-space-grotesk), sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.repoLink {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.repoLink:hover {
+  color: var(--accent);
 }
 
 .live,

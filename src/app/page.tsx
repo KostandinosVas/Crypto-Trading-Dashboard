@@ -8,6 +8,7 @@ import { IntervalSelector } from '@/components/IntervalSelector';
 import { useHistoricalData } from '@/hooks/useHistoricalData';
 import { usePriceStream } from '@/hooks/usePriceStream';
 import { ChatWidget } from '@/components/ChatWidget';
+import { getCoinIconUrl, FALLBACK_ICON } from '@/lib/coinIcon';
 import styles from './page.module.css';
 
 export default function Home() {
@@ -27,7 +28,18 @@ export default function Home() {
           </aside>
           <section className={styles.chartSection}>
             <div className={styles.chartHeader}>
+              <div className={styles.chartTitle}>
+              <img
+                src={getCoinIconUrl(selectedSymbol)}
+                alt=""
+                className={styles.chartIcon}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = FALLBACK_ICON;
+                }}
+              />
               <h2>{selectedSymbol}</h2>
+            </div>
               <IntervalSelector selected={interval} onSelect={setInterval} />
             </div>
             {isLoading && <div>Loading...</div>}

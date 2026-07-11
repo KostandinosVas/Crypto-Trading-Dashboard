@@ -25,6 +25,17 @@
   min-width: 0;
 }
 
+.chartTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.chartIcon {
+  width: 24px;
+  height: 24px;
+}
+
 .chartHeader {
   display: flex;
   justify-content: space-between;

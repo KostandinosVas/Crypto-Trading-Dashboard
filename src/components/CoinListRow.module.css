@@ -37,3 +37,15 @@
 .down {
   color: var(--down);
 }
+
+.symbolGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
