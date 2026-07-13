@@ -5,8 +5,51 @@ import { executeGetPrice, executeGetTopMovers } from '@/lib/chatToolExecutors';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
+
+const RATE_LIMIT = 10; // requests
+const RATE_WINDOW_MS = 60_000; // per 1 minute, per IP
+
+const requestLog = new Map<string, number[]>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const timestamps = (requestLog.get(ip) ?? []).filter((t) => now - t < RATE_WINDOW_MS);
+
+  if (timestamps.length >= RATE_LIMIT) {
+    requestLog.set(ip, timestamps);
+    return true;
+  }
+
+  timestamps.push(now);
+  requestLog.set(ip, timestamps);
+  return false;
+}
+
+
+
 export async function POST(request: Request) {
-  const { message } = await request.json();
+   const ip = request.headers.get('x-forwarded-for') ?? 'unknown';
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+  }
+  
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+
+   const message = (body as { message?: unknown })?.message;
+
+  if (typeof message !== 'string' || message.trim().length === 0) {
+    return NextResponse.json({ error: 'message is required' }, { status: 400 });
+  }
+
+  if (message.length > 500) {
+    return NextResponse.json({ error: 'message is too long' }, { status: 400 });
+  }
 
   const chat = ai.chats.create({
     model: 'gemini-2.5-flash',

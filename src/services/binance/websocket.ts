@@ -8,9 +8,12 @@ interface BinanceMiniTickerRaw {
   o: string;
 }
 
+
 class BinanceWebSocketManager {
   private static instance: BinanceWebSocketManager | null = null;
   private ws: WebSocket | null = null;
+  private reconnectAttempts = 0;
+  private reconnectTimeout: ReturnType<typeof setTimeout> | null = null;
 
   private constructor() {
     this.connect();
@@ -28,6 +31,7 @@ class BinanceWebSocketManager {
     this.ws = socket;
 
     socket.onopen = () => {
+      this.reconnectAttempts = 0;
       usePriceStore.getState().setConnected(true);
     };
 
@@ -39,11 +43,26 @@ class BinanceWebSocketManager {
       }
     };
 
+    socket.onerror = () => {
+      socket.close();
+    };
+
     socket.onclose = () => {
       usePriceStore.getState().setConnected(false);
+      this.scheduleReconnect();
     };
   }
+
+  private scheduleReconnect() {
+    const delay = Math.min(1000 * 2 ** this.reconnectAttempts, 30_000);
+    this.reconnectAttempts++;
+
+    this.reconnectTimeout = setTimeout(() => {
+      this.connect();
+    }, delay);
+  }
 }
+
 
 let singleton: BinanceWebSocketManager | null = null;
 
